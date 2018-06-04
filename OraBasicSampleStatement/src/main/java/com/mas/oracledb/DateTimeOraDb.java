@@ -35,7 +35,6 @@ public class DateTimeOraDb {
 	  static CustomMessageType cMessageType = new CustomMessageType("DateTimeOraDb");
 	  OracleDbController oraControl = new OracleDbController();
 	  OracleConfiguration oraDbConfiguration = new OracleConfiguration();
-
 	  
 	  public static void main(String[] args) throws Exception {
 
@@ -43,7 +42,6 @@ public class DateTimeOraDb {
 	    demo.run();
 	  }
 	  
-
 	  void run() throws SQLException {
 		  
 		  EmployeeDateServiceImpl employeeDateServiceImpl = new EmployeeDateServiceImpl();
@@ -75,7 +73,7 @@ public class DateTimeOraDb {
 	      EmployeeDate emp =  employeeDateServiceImpl.getEmployeeDetails(1001, conn);
 	      
 	      ArrayList<EmployeeDate> listEmployeeDate = new ArrayList<EmployeeDate>();
-	      
+
 	      if (emp != null){
 	    	  listEmployeeDate.add(emp);
 	    	  cMessageType.printEmployeesDate(listEmployeeDate, "small");
@@ -87,12 +85,14 @@ public class DateTimeOraDb {
 	      cMessageType.show("\nUpdated details of EmployeeDate= " + empId);
 	      EmployeeDate emp1 =  employeeDateServiceImpl.getEmployeeDetails(1001, conn);
 	      
+	      ArrayList<EmployeeDate> listEmployeeDateDetails = new ArrayList<EmployeeDate>();
+	      
 	      if (emp1 != null) {
-	    	listEmployeeDate.add(emp1);
-    	  	cMessageType.printEmployeesDate(listEmployeeDate, "small");
+	    	  listEmployeeDateDetails.add(emp1);
+    	  	cMessageType.printEmployeesDate(listEmployeeDateDetails, "small");
 	      }
 
-	      cMessageType.show("JDBCDateTimeSample demo completes.");
+	      cMessageType.show("JDBCDateTime completes.");
 	    }
 
 	  }

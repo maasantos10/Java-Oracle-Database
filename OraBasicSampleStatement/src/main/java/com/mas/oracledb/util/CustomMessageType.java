@@ -1,11 +1,24 @@
 package com.mas.oracledb.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+
 import com.mas.oracledb.model.Employee;
 import com.mas.oracledb.model.EmployeeDate;
 
@@ -39,8 +52,11 @@ public class CustomMessageType {
     
     public void showError(String msg, SQLException e) {
 		LOGGER.error("Error : " + errorMessage + " - " + e.getMessage());
-      }
+    }
     
+    public void showError(String msg, Throwable exc) {
+    	LOGGER.error(msg + " hit error: " + exc.getMessage());
+    }
     
     public void printEmployees(ArrayList<Employee> listEmployees, String type) {
     	for(Employee employee : listEmployees)
@@ -55,6 +71,16 @@ public class CustomMessageType {
                 "/----------------------------------------------------------------/");
     	}
     }
+    
+    
+    /***
+     * Obs.: In this case it is so much better include all atributes of Class EmployeeDate 
+     * in only one Class such a Employee Class, however, I want to leave in two separate classes
+     * for study purpose.
+     * 
+     * @param listEmployeesDate
+     * @param type
+     */
     
     public void printEmployeesDate(ArrayList<EmployeeDate> listEmployeesDate, String type) {
     	for(EmployeeDate employee : listEmployeesDate)
@@ -77,7 +103,28 @@ public class CustomMessageType {
     	    listaPessoas.get(i).fazerAlgumaCoisa();
     	}
     	*/
-    	
+
+    /**
+	   * Simple code to print an XML Documint to an OutputStream.
+	   *
+	   * @param doc an XML document to print
+	   * @param the stream to print to
+	   * @throws IOException if an error occurs is writing the output
+	   * @throws TransformerException if an error occurs in generating the output
+	   */
+	  public static void printDocument(Document doc, OutputStream out)
+	    throws IOException, TransformerException {
+	    TransformerFactory factory = TransformerFactory.newInstance();
+	    Transformer transformer = factory.newTransformer();
+	    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+	    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+	    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+	    transformer.transform(new DOMSource(doc),
+	         new StreamResult(new OutputStreamWriter(out, "UTF-8")));
+	  }
     	
     	/**
   	   * Reads the password from console.

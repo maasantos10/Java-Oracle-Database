@@ -24,7 +24,6 @@ import oracle.jdbc.pool.OracleDataSource;
 
 public class StatementSample {
 
-	// Start the main with the command "java StatementDemo -u "<user>" -l "<URL>"
 	public static void main(String args[]) throws IOException {
 
 		OracleDbController oraControl = new OracleDbController();
